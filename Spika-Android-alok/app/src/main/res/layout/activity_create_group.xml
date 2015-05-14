@@ -1,0 +1,53 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.uf.togathor.modules.chat.CreateGroupActivity">
+
+    <ImageView
+        android:id="@+id/group_dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/group_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/group_dp"
+        android:hint="Group Name"/>
+
+    <EditText
+        android:id="@+id/group_cat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/group_name"
+        android:paddingTop="10dp"
+        android:hint="Group Category"/>
+
+    <EditText
+        android:id="@+id/group_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/group_cat"
+        android:paddingTop="10dp"
+        android:hint="Group Description"/>
+
+    <EditText
+        android:id="@+id/group_pass"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/group_desc"
+        android:paddingTop="10dp"
+        android:hint="Group Password"/>
+
+    <Button
+        android:id="@+id/create_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Create"/>
+
+</RelativeLayout>

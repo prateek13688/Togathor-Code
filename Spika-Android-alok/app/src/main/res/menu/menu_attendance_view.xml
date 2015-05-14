@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.uf.togathor.modules.attendance.AttendanceActivity">
+    <item
+        android:id="@+id/menu_action_attendance_list"
+        android:orderInCategory="100"
+        android:title="Attendance List"
+        app:showAsAction="never" />
+</menu>

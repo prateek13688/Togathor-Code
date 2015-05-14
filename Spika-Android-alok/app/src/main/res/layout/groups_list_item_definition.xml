@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:paddingBottom="2dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:background="@android:color/white">
+        <TextView
+            android:id="@+id/tvGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="6dp"
+            android:textColor="#444444"
+            android:textIsSelectable="false"
+            android:text="Default Name"
+            android:textSize="18sp" />
+</RelativeLayout>

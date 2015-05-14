@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/relativeLayout_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#000000"
+        android:minHeight="?attr/actionBarSize" />
+
+    <LinearLayout
+        android:id="@+id/CropperLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.edmodo.cropper.CropImageView xmlns:custom="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/CropImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            custom:aspectRatioX="5" />
+    </LinearLayout>
+
+</LinearLayout>

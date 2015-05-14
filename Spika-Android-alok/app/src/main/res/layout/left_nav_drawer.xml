@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navBarLeft"
+    android:layout_width="304dp"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:fitsSystemWindows="true"
+    android:clickable="true"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="135dp">
+
+        <ImageView
+            android:id="@+id/userCover"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon"/>
+
+        <LinearLayout
+            android:id="@+id/userBar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:orientation="horizontal">
+
+
+            <com.uf.togathor.uitems.CircularImageView
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:src="@drawable/user_profile"
+                android:layout_gravity="center_vertical"/>
+
+            <LinearLayout
+                android:id="@+id/userBar2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/userName"
+                    android:text="S3Lab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/white"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/userEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="s3lab@ufl.edu"
+                    android:textColor="@android:color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </FrameLayout>
+    <ListView
+        android:id="@+id/left_drawer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:divider="@android:color/transparent"
+        android:choiceMode="singleChoice"
+        android:dividerHeight="5dp" />
+</LinearLayout>

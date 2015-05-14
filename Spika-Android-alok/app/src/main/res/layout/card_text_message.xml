@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<com.uf.togathor.uitems.cards.CustomTextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/MainLayout">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:orientation="horizontal">
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/from_text_card_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="2dp"
+            card_view:cardBackgroundColor="#E3F2FD"
+            card_view:cardCornerRadius="@dimen/card_corner_radius">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/from_text_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/small_padding"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/description_size"
+                    tools:text="And this is the description" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/to_text_card_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="2dp"
+            card_view:cardBackgroundColor="#FFFFFF"
+            card_view:cardCornerRadius="@dimen/card_corner_radius">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                android:id="@+id/to_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/small_padding"
+                android:layout_alignParentLeft="true"
+                android:visibility="gone"
+                android:textColor="#673AB7"
+                android:textStyle="bold"
+                tools:text="This is the title" />
+
+                <TextView
+                    android:id="@+id/to_text_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/to_name"
+                    android:padding="@dimen/small_padding"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/description_size"
+                    tools:text="And this is the description" />
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+    </RelativeLayout>
+</com.uf.togathor.uitems.cards.CustomTextView>

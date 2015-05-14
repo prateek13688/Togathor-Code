@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#0288D1"
+        android:minHeight="?attr/actionBarSize">
+
+        <RelativeLayout
+            android:id="@+id/toolbar_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="20dp">
+
+            <LinearLayout
+                android:id="@+id/layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/geofence_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="Bob's Geofence"
+                    android:textColor="@android:color/white"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textSize="30dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/pick_place"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="5dp"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:ellipsize="marquee"
+                    android:maxLines="1"
+                    android:text="PICK A PLACE"
+                    android:textColor="@android:color/white" />
+
+                <TextView
+                    android:id="@+id/pick_users"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="5dp"
+                    android:paddingLeft="5dp"
+                    android:textStyle="bold"
+                    android:textSize="18dp"
+                    android:text="SELECT USERS"
+                    android:textColor="@android:color/white" />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </android.support.v7.widget.Toolbar>
+
+    <RelativeLayout
+        android:id="@+id/map_frame"
+        android:layout_below="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <fragment
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/toolbar"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="-32dp"
+        android:layout_marginRight="30dp">
+
+        <com.getbase.floatingactionbutton.FloatingActionButton
+            android:id="@+id/finish_setup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="10dp"
+            android:src="@drawable/ic_check_white_36dp"
+            app:fab_colorNormal="#8BC34A" />
+
+    </LinearLayout>
+
+</RelativeLayout>
