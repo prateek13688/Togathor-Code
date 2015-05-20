@@ -49,7 +49,7 @@ public class HookUpProgressDialog extends Dialog {
 		this.setContentView(R.layout.progress_dialog);
 		this.setCancelable(false);
 
-        pbci = (ProgressBarCircularIndeterminate) findViewById(R.id.progressBarCircularIndeterminate);
+        pbci = (ProgressBarCircularIndeterminate) findViewById(R.id.progressBarCircularIndetermininate);
         pbci.setVisibility(View.GONE);
 
 	}
@@ -60,7 +60,7 @@ public class HookUpProgressDialog extends Dialog {
         this.setContentView(R.layout.progress_dialog);
         this.setCancelable(false);
 
-        pbci = (ProgressBarCircularIndeterminate) findViewById(R.id.progressBarCircularIndeterminate);
+        pbci = (ProgressBarCircularIndeterminate) findViewById(R.id.progressBarCircularIndetermininate);
         pbci.setVisibility(View.GONE);
 
     }
