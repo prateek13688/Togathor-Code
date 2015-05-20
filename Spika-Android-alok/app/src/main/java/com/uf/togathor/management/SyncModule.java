@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.uf.togathor.HomeActivity;
+import com.uf.togathor.R;
 import com.uf.togathor.Togathor;
 import com.uf.togathor.db.couchdb.CouchDB;
 import com.uf.togathor.db.couchdb.ResultListener;
@@ -15,6 +17,7 @@ import com.uf.togathor.db.couchdb.model.Group;
 import com.uf.togathor.db.couchdb.model.User;
 import com.uf.togathor.model.Message;
 import com.uf.togathor.model.timeline.event.EventMessage;
+import com.uf.togathor.modules.chat.JoinGroupActivity;
 import com.uf.togathor.utils.appservices.EventService;
 import com.uf.togathor.utils.constants.Const;
 
@@ -284,9 +287,11 @@ public class SyncModule {
     }
 
     public static void addGroupContact(final String groupID, final String userID, final Context context) {
-        if (Togathor.getContactsDataSource().getAllUserGroups().containsKey(groupID))
-            return;
-
+        Boolean result = Togathor.getContactsDataSource().getAllUserGroups().containsKey(groupID);
+        if (result)
+            Toast.makeText(context, context.getString(R.string.ALREADY_ADDED_TO_GROUP), Toast.LENGTH_SHORT).show();
+        else
+        {
         CouchDB.addFavoriteGroupAsync(groupID, userID,
                 new ResultListener<Boolean>() {
                     @Override
@@ -295,8 +300,8 @@ public class SyncModule {
                             @Override
                             public void onResultsSucceeded(Group result) {
                                 Togathor.getContactsDataSource().insertGroup(result);
+                                    Toast.makeText(context, context.getString(R.string.ADDED_TO_GROUP), Toast.LENGTH_SHORT).show();
                             }
-
                             @Override
                             public void onResultsFail() {
 
@@ -309,6 +314,8 @@ public class SyncModule {
 
                     }
                 }, context, true);
+    }
+
     }
 
     public static boolean sendMessage(Message message, final Context context, User toUser, Group toGroup) {
