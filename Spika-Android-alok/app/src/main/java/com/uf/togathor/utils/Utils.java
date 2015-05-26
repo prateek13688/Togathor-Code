@@ -67,6 +67,8 @@ import java.util.concurrent.ExecutionException;
 
 @SuppressLint("SimpleDateFormat")
 public class Utils {
+
+    private static Group group_deleted = null;
     public static void copyStream(InputStream is, OutputStream os) {
         final int buffer_size = 1024;
         try {
@@ -295,6 +297,17 @@ public class Utils {
         return null;
     }
 
+    public static void deleteGroup(Context context, Group group, boolean showProgress)
+    {
+        try{
+                group_deleted = group;
+                CouchDB.deleteGroupAsync(group.getId(), new GroupDeletedFinish(), context,showProgress );
+        }
+        catch (Exception e)
+        {
+                e.printStackTrace();
+        }
+    }
     private static class GroupCreatedFinish implements ResultListener<String> {
 
         @Override
@@ -309,6 +322,27 @@ public class Utils {
             }
         }
 
+        @Override
+        public void onResultsFail() {
+            Log.d("CreateGroup", "Failed");
+        }
+    }
+
+    private static class GroupDeletedFinish implements  ResultListener<Boolean>
+    {
+        @Override
+        public void onResultsSucceeded(Boolean result) {
+
+            if(result)
+            {
+                Log.d("DeleteGroup", "Successful");
+                Log.d("DeleteGroup", "Deleting from LocalDB");
+                Togathor.getContactsDataSource().deleteGroup(group_deleted);
+                group_deleted = null;
+            }
+            else
+                Log.d("DeleteGroup", "Failed");
+        }
         @Override
         public void onResultsFail() {
             Log.d("CreateGroup", "Failed");

@@ -1,5 +1,6 @@
 package com.uf.togathor.modules.chat;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,6 +11,7 @@ import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -185,7 +187,12 @@ public class ChatGroupActivity extends ActionBarActivity implements ImageView.On
         UsersManagement.setToGroup(null);
         super.onBackPressed();
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+        getMenuInflater().inflate(R.menu.menu_group, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
     /**
      * The action listener for the EditText widget, to listen for the return key
      */
@@ -374,6 +381,12 @@ public class ChatGroupActivity extends ActionBarActivity implements ImageView.On
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                return true;
+
+            case R.id.menu_delete_exit_from_group:
+                Utils.deleteGroup(ChatGroupActivity.this, toGroup, true);
+                return true;
+            case R.id.menu_view_group_member:
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_delete_exit_from_group"
+        app:showAsAction="never"
+        android:title="Delete and Exit From Group"/>
+
+    <item
+        android:id="@+id/menu_view_group_member"
+        app:showAsAction="never"
+        android:title="View Group Members"/>
+</menu>
