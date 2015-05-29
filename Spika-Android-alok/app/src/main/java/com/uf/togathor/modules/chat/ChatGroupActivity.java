@@ -23,6 +23,7 @@ import android.widget.TextView;
 import com.dexafree.materialList.model.Card;
 import com.dexafree.materialList.view.MaterialListView;
 import com.gc.materialdesign.views.Button;
+import com.google.gson.Gson;
 import com.kbeanie.imagechooser.api.ChooserType;
 import com.kbeanie.imagechooser.api.ChosenImage;
 import com.kbeanie.imagechooser.api.ChosenVideo;
@@ -30,6 +31,7 @@ import com.kbeanie.imagechooser.api.ImageChooserListener;
 import com.kbeanie.imagechooser.api.ImageChooserManager;
 import com.kbeanie.imagechooser.api.VideoChooserListener;
 import com.kbeanie.imagechooser.api.VideoChooserManager;
+import com.uf.togathor.db.couchdb.model.Member;
 import com.uf.togathor.modules.attendance.AttendanceActivity;
 import com.uf.togathor.R;
 import com.uf.togathor.Togathor;
@@ -53,6 +55,7 @@ import org.json.JSONException;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -386,7 +389,12 @@ public class ChatGroupActivity extends ActionBarActivity implements ImageView.On
             case R.id.menu_delete_exit_from_group:
                 Utils.deleteGroup(ChatGroupActivity.this, toGroup, true);
                 return true;
-            case R.id.menu_view_group_member:
+            case R.id.menu_view_group_member:   
+                Intent i = new Intent(ChatGroupActivity.this,ViewGroupMember.class );
+                List<Member> memberList = Utils.findMember(ChatGroupActivity.this, toGroup, true);
+                String mList = new Gson().toJson(memberList);
+                i.putExtra("memberList", mList);
+                startActivity(i);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -42,6 +42,7 @@ import com.uf.togathor.Togathor;
 import com.uf.togathor.db.couchdb.CouchDB;
 import com.uf.togathor.db.couchdb.ResultListener;
 import com.uf.togathor.db.couchdb.model.Group;
+import com.uf.togathor.db.couchdb.model.Member;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -56,6 +57,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 
@@ -296,7 +298,19 @@ public class Utils {
         }
         return null;
     }
-
+   
+    public static List<Member> findMember(Context context, Group group, boolean showProgress)
+    {
+        try{
+            return CouchDB.findGroupMemberAsync(group, new findMemberGroupfinish(), context, showProgress);
+        }
+        catch(ExecutionException e){
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public static void deleteGroup(Context context, Group group, boolean showProgress)
     {
         try{
@@ -327,7 +341,19 @@ public class Utils {
             Log.d("CreateGroup", "Failed");
         }
     }
+    public static class findMemberGroupfinish implements  ResultListener<List<Member>>
+    {
 
+        @Override
+        public void onResultsSucceeded(List result) {
+
+        }
+
+        @Override
+        public void onResultsFail() {
+
+        }
+    }
     private static class GroupDeletedFinish implements  ResultListener<Boolean>
     {
         @Override

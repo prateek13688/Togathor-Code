@@ -1465,6 +1465,23 @@ public class CouchDB {
 
         return CouchDBHelper.parseMemberObjects(json);
     }
+    public static List<Member> findGroupMemberAsync(Group group, ResultListener<List<Member>> resultListener, Context context, boolean showProgressBar)
+            throws ExecutionException, InterruptedException {
+        return new TogathorAsyncTask<Void, Void, List<Member>>(new FindGroupMember(group), resultListener, context, showProgressBar).execute().get();
+    }
+    private static class FindGroupMember implements Command<List<Member>> {
+        Group group;
+
+        public FindGroupMember(Group group) {
+            this.group = group;
+        }
+
+        @Override
+        public List<Member> execute() throws JSONException, IOException, IllegalStateException, TogathorException, TogathorForbiddenException {
+            return findMembersByGroupId(group.getId(), 0, 0);
+        }
+    }
+
 
 
     //************** FIND MESSAGE BY ID **************************
