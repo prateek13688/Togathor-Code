@@ -394,6 +394,7 @@ public class ChatGroupActivity extends ActionBarActivity implements ImageView.On
                 List<Member> memberList = Utils.findMember(ChatGroupActivity.this, toGroup, true);
                 String mList = new Gson().toJson(memberList);
                 i.putExtra("memberList", mList);
+                i.putExtra("groupName", toGroup.getName());
                 startActivity(i);
                 return true;
             default:
