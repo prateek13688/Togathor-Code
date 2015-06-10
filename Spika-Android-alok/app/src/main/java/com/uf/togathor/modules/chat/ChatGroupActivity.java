@@ -387,7 +387,7 @@ public class ChatGroupActivity extends ActionBarActivity implements ImageView.On
                 return true;
 
             case R.id.menu_delete_exit_from_group:
-                Utils.deleteGroup(ChatGroupActivity.this, toGroup, true);
+                SyncModule.removeUserfromGroup(toGroup.getId(), ChatGroupActivity.this);
                 return true;
             case R.id.menu_view_group_member:   
                 Intent i = new Intent(ChatGroupActivity.this,ViewGroupMember.class );

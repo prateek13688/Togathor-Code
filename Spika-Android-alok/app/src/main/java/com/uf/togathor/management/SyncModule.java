@@ -290,8 +290,7 @@ public class SyncModule {
         Boolean result = Togathor.getContactsDataSource().getAllUserGroups().containsKey(groupID);
         if (result)
             Toast.makeText(context, context.getString(R.string.ALREADY_ADDED_TO_GROUP), Toast.LENGTH_SHORT).show();
-        else
-        {
+        else {
         CouchDB.addFavoriteGroupAsync(groupID, userID,
                 new ResultListener<Boolean>() {
                     @Override
@@ -302,6 +301,7 @@ public class SyncModule {
                                 Togathor.getContactsDataSource().insertGroup(result);
                                     Toast.makeText(context, context.getString(R.string.ADDED_TO_GROUP), Toast.LENGTH_SHORT).show();
                             }
+
                             @Override
                             public void onResultsFail() {
 
@@ -315,8 +315,24 @@ public class SyncModule {
                     }
                 }, context, true);
     }
-
     }
+    public static void removeUserfromGroup(final String groupID, final Context context) /*prateek.j1*/
+    {
+        CouchDB.removeFavoriteGroupAsync(groupID, new ResultListener<Boolean>() {
+            @Override
+            public void onResultsSucceeded(Boolean result) {
+                if (result)
+                    Toast.makeText(context, " The User Removed from the Group", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResultsFail() {
+                Toast.makeText(context, "The User could not be deleted", Toast.LENGTH_SHORT).show();
+            }
+        }, context, true);
+    }
+
+
 
     public static boolean sendMessage(Message message, final Context context, User toUser, Group toGroup) {
         boolean success;
