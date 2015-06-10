@@ -1192,6 +1192,47 @@ public class CouchDB {
         }
     }
 
+    // ******************** REMOVE USER FROM GROUP *************************
+    /**
+     * Remove a user from a group
+     *
+     * @param groupId, userId
+     * @return
+     * @throws TogathorException
+     * @throws IOException
+     * @throws JSONException
+     * @throws ClientProtocolException
+     * @throws TogathorForbiddenException
+     * @throws IllegalStateException
+     */
+    public static void removeUserfromGroup(String groupId, String userId) throws JSONException, IOException, TogathorException, IllegalStateException, TogathorForbiddenException {
+
+        JSONObject create = new JSONObject();
+        create.put(Const.GROUP_ID, groupId);
+
+        JSONObject userJson = ConnectionHandler.postJsonObject(Const.UNSUBSCRIBE_GROUP, create, userId, UsersManagement.getLoginUser().getToken());
+        UsersManagement.setLoginUser(CouchDBHelper.parseSingleUserObjectWithoutRowParam(userJson));
+    }
+    public static void removeUserfromGroupAsync(String groupId, String userId, ResultListener<Boolean> resultListener, Context context, boolean showProgressBar) {
+        new TogathorAsyncTask<Void, Void, Boolean>(new RemoveFavoriteGroup(groupId), resultListener, context, showProgressBar).execute();
+    }
+
+    private static class RemoveUserfromGroup implements Command<Boolean> {
+
+        String groupId;
+        String userId;
+        public RemoveUserfromGroup(String groupId, String userId) {
+            this.groupId = groupId;
+            this.userId = userId;
+        }
+
+        @Override
+        public Boolean execute() throws JSONException, IOException, TogathorException, IllegalStateException, TogathorForbiddenException {
+            removeUserfromGroup(groupId, userId);
+            return true;
+        }
+    }
+
 // ******************** REMOVE FAVORITE GROUP *************************
 
     /**

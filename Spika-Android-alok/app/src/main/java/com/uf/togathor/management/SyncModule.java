@@ -316,6 +316,22 @@ public class SyncModule {
                 }, context, true);
     }
     }
+
+    public static void removeOtherUsersfromGroup(final String groupID, final String userID, final Context context)
+    {
+        CouchDB.removeUserfromGroupAsync(groupID, userID, new ResultListener<Boolean>() {
+            @Override
+            public void onResultsSucceeded(Boolean result) {
+                if (result)
+                    Toast.makeText(context, " The User Removed from the Group", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResultsFail() {
+                Toast.makeText(context, "The User could not be removed from the group", Toast.LENGTH_SHORT).show();
+            }
+        }, context, true);
+    }
     public static void removeUserfromGroup(final String groupID, final Context context) /*prateek.j1*/
     {
         CouchDB.removeFavoriteGroupAsync(groupID, new ResultListener<Boolean>() {
