@@ -69,9 +69,18 @@ public class GroupsViewFragment extends Fragment {
     }
 
     @Override
+    public void onResume()
+    {
+        super.onResume();
+        listOfGroups.addAll(SyncModule.getAllUserGroups());
+        mGroupListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.bluetooth_chat, menu);
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

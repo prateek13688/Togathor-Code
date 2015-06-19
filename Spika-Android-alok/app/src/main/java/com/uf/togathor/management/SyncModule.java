@@ -1,8 +1,10 @@
 package com.uf.togathor.management;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -300,11 +302,12 @@ public class SyncModule {
                             public void onResultsSucceeded(Group result) {
                                 Togathor.getContactsDataSource().insertGroup(result);
                                     Toast.makeText(context, context.getString(R.string.ADDED_TO_GROUP), Toast.LENGTH_SHORT).show();
+                                    ((Activity)context).finish();
                             }
 
                             @Override
                             public void onResultsFail() {
-
+                                    Toast.makeText(context, context.getString(R.string.ALREADY_ADDED_TO_GROUP), Toast.LENGTH_SHORT).show();
                             }
                         }, context, true);
                     }
