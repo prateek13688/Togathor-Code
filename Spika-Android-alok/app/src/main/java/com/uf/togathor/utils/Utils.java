@@ -36,6 +36,7 @@ import android.graphics.LightingColorFilter;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import com.uf.togathor.R;
 import com.uf.togathor.Togathor;
@@ -71,6 +72,8 @@ import java.util.concurrent.ExecutionException;
 public class Utils {
 
     private static Group group_deleted = null;
+    private static Context currentcontext;
+
     public static void copyStream(InputStream is, OutputStream os) {
         final int buffer_size = 1024;
         try {
@@ -290,6 +293,7 @@ public class Utils {
     public static String createGroup(Context context, Group group, boolean showProgress)   {
         try {
             createGroupHolder = group;
+            currentcontext = context;
            return CouchDB.createGroupAsync(group, new GroupCreatedFinish(), context, showProgress);
         } catch (ExecutionException e) {
             e.printStackTrace();
@@ -331,6 +335,8 @@ public class Utils {
                 Log.d("CreateGroup", "Inserting into LocalDB");
                 createGroupHolder.setId(groupId);
                 Togathor.getContactsDataSource().insertGroup(createGroupHolder);
+                Toast.makeText(currentcontext, currentcontext.getString(R.string.GROUP_CREATED_SUCCESS), Toast.LENGTH_SHORT).show();
+                ((Activity)currentcontext).finish();
             } else {
                 Log.d("CreateGroup", "Failed");
             }
