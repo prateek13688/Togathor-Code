@@ -87,6 +87,13 @@ public class ChatsViewFragment extends Fragment implements SwipeRefreshLayout.On
 
 
     @Override
+    public void onResume()
+    {
+        super.onResume();
+        onRefresh();
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.bluetooth_chat, menu);
     }

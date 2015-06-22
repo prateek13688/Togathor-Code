@@ -20,6 +20,7 @@ import com.uf.togathor.db.couchdb.model.User;
 import com.uf.togathor.model.Message;
 import com.uf.togathor.model.timeline.event.EventMessage;
 import com.uf.togathor.modules.chat.JoinGroupActivity;
+import com.uf.togathor.uitems.HookUpDialog;
 import com.uf.togathor.utils.appservices.EventService;
 import com.uf.togathor.utils.constants.Const;
 
@@ -263,8 +264,10 @@ public class SyncModule {
 
     public static void addUserContact(final String userID, final Context context) {
         if (Togathor.getContactsDataSource().getAllUserContacts().containsKey(userID))
+        {
+            new HookUpDialog(context).showOnlyOK(context.getString(R.string.USER_ALREADY_ADDED_TO_CONTACT));
             return;
-
+        }
         CouchDB.addUserContactAsync(userID, new ResultListener<Boolean>() {
             @Override
             public void onResultsSucceeded(Boolean result) {
@@ -272,11 +275,12 @@ public class SyncModule {
                     @Override
                     public void onResultsSucceeded(User result) {
                         Togathor.getContactsDataSource().insertUser(result);
+                        Toast.makeText(context, R.string.USER_ADDED_TO_CONTACT, Toast.LENGTH_SHORT);
                     }
 
                     @Override
                     public void onResultsFail() {
-
+                        Toast.makeText(context, R.string.USER_ADDED_TO_CONTACT_FAIL, Toast.LENGTH_SHORT);
                     }
                 }, context, true);
             }
@@ -291,7 +295,7 @@ public class SyncModule {
     public static void addGroupContact(final String groupID, final String userID, final Context context) {
         Boolean result = Togathor.getContactsDataSource().getAllUserGroups().containsKey(groupID);
         if (result)
-            Toast.makeText(context, context.getString(R.string.ALREADY_ADDED_TO_GROUP), Toast.LENGTH_SHORT).show();
+            new HookUpDialog(context).showOnlyOK(context.getString(R.string.ALREADY_ADDED_TO_GROUP));
         else {
         CouchDB.addFavoriteGroupAsync(groupID, userID,
                 new ResultListener<Boolean>() {
