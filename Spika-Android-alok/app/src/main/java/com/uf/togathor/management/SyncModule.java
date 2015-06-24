@@ -76,7 +76,7 @@ public class SyncModule {
         return listOfMessages;
     }
 
-    public static ArrayList<Message> getAllMessagesFromServer() {
+    public static ArrayList<Message> getAllMessagesFromServer(int currentPage) {
 
         List<Message> tempList;
         listOfMessages = new ArrayList<>();
@@ -84,11 +84,9 @@ public class SyncModule {
         fromUser = UsersManagement.getLoginUser();
         toUser = UsersManagement.getToUser();
         toGroup = UsersManagement.getToGroup();
-        currentPage = 0;
-
         try {
             while (true) {
-                tempList = (new CouchDB.FindMessagesForUser(fromUser, toUser, toGroup, currentPage++)
+                tempList = (new CouchDB.FindMessagesForUser(fromUser, toUser, toGroup, currentPage)
                         .executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR)).get();
                 if (tempList == null || tempList.size() == 0)
                     break;

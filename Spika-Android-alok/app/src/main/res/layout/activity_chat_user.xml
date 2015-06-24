@@ -88,13 +88,31 @@
                 </RelativeLayout>
             </android.support.v7.widget.Toolbar>
 
-            <com.dexafree.materialList.view.MaterialListView
+            <RelativeLayout
+                android:id="@+id/chatview_container"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+                android:layout_below ="@id/toolbar" >
+
+                <Button
+                    android:id="@+id/button_loadEarlier"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:bottomRightRadius="10dp"
+                    android:bottomLeftRadius="10dp"
+                    android:topLeftRadius="10dp"
+                    android:topRightRadius="10dp"
+                    android:text="Load Earlier Message"
+                    android:layout_alignParentTop="true" />
+
+                 <com.dexafree.materialList.view.MaterialListView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="9"
                 android:dividerHeight="10dp"
-                android:id="@+id/chat_view"/>
-
+                android:id="@+id/chat_view"                     android:layout_below="@id/button_loadEarlier"/>
+            </RelativeLayout>
         </LinearLayout>
 
         <android.support.v7.widget.CardView

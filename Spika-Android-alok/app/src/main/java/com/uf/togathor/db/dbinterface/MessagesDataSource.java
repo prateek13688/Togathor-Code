@@ -5,12 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.uf.togathor.db.couchdb.model.Group;
 import com.uf.togathor.db.couchdb.model.User;
 import com.uf.togathor.db.localdb.ChatDB;
 import com.uf.togathor.management.SyncModule;
 import com.uf.togathor.model.Message;
+import com.uf.togathor.utils.constants.Const;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -60,12 +62,33 @@ public class MessagesDataSource {
 
     public void insertMessage(Message message, User toUser) {
         ContentValues values = messageToValue(message);
+        String rowId = null;
+        Cursor cursor = database.query(dbHelper.createTable(toUser.getId()),
+                allColumns, null, null, null, null, null);
+        if(cursor.getCount() > Const.DB_MAX_MESSAGE_LIMIT)
+        {
+            if(cursor.moveToFirst())
+                rowId = cursor.getString(cursor.getColumnIndex(ChatDB.COLUMN_ID));
+            int rows  = database.delete(dbHelper.createTable(toUser.getId()), ChatDB.COLUMN_ID +  "=?", new String[]{rowId});
+            Log.d("MessageDataSource", "The Number of Rows Deleted in insertMessages for one user" + rows);
+        }
         long insertId = database.insert(dbHelper.createTable(toUser.getId()), null,
                 values);
     }
 
     public void insertMessage(Message message, Group toGroup) {
         ContentValues values = messageToValue(message);
+        String rowId = null;
+        int rows = 0;
+        Cursor cursor = database.query(dbHelper.createTable(toGroup.getId()),
+                allColumns, null, null, null, null, null);
+        if(cursor.getCount() > Const.DB_MAX_MESSAGE_LIMIT)
+        {
+            if(cursor.moveToFirst())
+                cursor.getString(cursor.getColumnIndex(ChatDB.COLUMN_ID));
+            rows  = database.delete(dbHelper.createTable(toGroup.getId()), ChatDB.COLUMN_ID +  "=?", new String[]{rowId});
+            Log.d("MessageDataSource", "The Number of Rows Deleted in insertMessages for Group" + rows);
+        }
         long insertId = database.insert(dbHelper.createTable(toGroup.getId()), null,
                 values);
     }
@@ -97,6 +120,24 @@ public class MessagesDataSource {
                 + " = " + id, null);
     }
 
+    public ArrayList<Message> getMessagesByPage(int currentPage)
+    {
+        ArrayList<Message> messages = new ArrayList<>();
+        messages = SyncModule.getAllMessagesFromServer(currentPage);
+        Collections.sort(messages, new Comparator<Message>() {
+            @Override
+            public int compare(Message lhs, Message rhs) {
+                if(lhs.getCreated() == rhs.getCreated())
+                    return 0;
+                else if(lhs.getCreated() > rhs.getCreated())
+                    return 1;
+                else
+                    return -1;
+            }
+        });
+
+        return messages;
+    }
     public ArrayList<Message> getAllMessages(User toUser, Group toGroup) {
         ArrayList<Message> messages = new ArrayList<>();
 
@@ -110,7 +151,7 @@ public class MessagesDataSource {
                     allColumns, null, null, null, null, null);
 
         if (cursor.getCount() <= 0) {
-            messages = SyncModule.getAllMessagesFromServer();
+            messages = SyncModule.getAllMessagesFromServer(1);
             //TODO Check the message ordering
             //Collections.reverse(messages);
             for (Message message : messages) {

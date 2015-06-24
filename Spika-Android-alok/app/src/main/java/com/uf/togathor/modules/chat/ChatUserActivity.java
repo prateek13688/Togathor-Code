@@ -12,10 +12,14 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.dexafree.materialList.model.Card;
@@ -65,7 +69,9 @@ public class ChatUserActivity extends ActionBarActivity implements ImageView.OnC
 
     private EditText mOutEditText;
     private ImageView mSendButton;
+    private Button mLoadEarlierMessage;
     private Toolbar toolbar;
+    private ScrollView messageScroll;
     private ImageView expandGroup;
     private ImageView buttonAttach;
     private ImageView chooseImage;
@@ -86,6 +92,7 @@ public class ChatUserActivity extends ActionBarActivity implements ImageView.OnC
     private User fromUser;
 
     public static ChatUserActivity sInstance = null;
+    private static int currentPage;
     private Message message;
     private Card card;
 
@@ -137,11 +144,45 @@ public class ChatUserActivity extends ActionBarActivity implements ImageView.OnC
      */
     private void setupChat() {
         Log.d(TAG, "setupChat()");
-
+        currentPage = 1;
         mOutEditText = (EditText) findViewById(R.id.edit_text_out);
         mSendButton = (ImageView) findViewById(R.id.button_send);
+        mLoadEarlierMessage = (Button) findViewById(R.id.button_loadEarlier);
+        mLoadEarlierMessage.setVisibility(View.GONE);
+        mLoadEarlierMessage.setBackgroundColor(Color.parseColor("#2196F3"));
         chatListView = (MaterialListView) findViewById(R.id.chat_view);
         chatListView.setCardAnimation(MaterialListView.CardAnimation.SCALE_IN);
+        chatListView.setOnScrollListener(new AbsListView.OnScrollListener(){
+            private int currentVisibleItemCount;
+            private int currentScrollState;
+            private int currentFirstVisibleItem;
+            private int totalItem;
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int currentScrollState) {
+                        this.currentScrollState = currentScrollState ;
+                        this.isScrollCompleted();
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem,
+                                 int visibleItemCount, int totalItemCount) {
+                // TODO Auto-generated method stub
+                this.currentFirstVisibleItem = firstVisibleItem;
+                this.currentVisibleItemCount = visibleItemCount;
+                this.totalItem = totalItemCount;
+            }
+            private void isScrollCompleted()
+            {
+                    if(currentFirstVisibleItem == 0&& currentScrollState == SCROLL_STATE_IDLE)
+                        scrollEndReached();
+
+            }
+            private void scrollEndReached()
+            {
+                    mLoadEarlierMessage.setVisibility(View.VISIBLE);
+            }
+        });
         gCurrentMessages = new ArrayList<>();
 
         // Initialize the compose field with a listener for the return key
@@ -155,7 +196,14 @@ public class ChatUserActivity extends ActionBarActivity implements ImageView.OnC
                 sendMessage(message, Const.TEXT);
             }
         });
-
+        mLoadEarlierMessage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mLoadEarlierMessage.setVisibility(View.GONE);
+                currentPage++;
+                fetchEarlierMessages();
+            }
+        });
         Togathor.getMessagesDataSource().close();
         Togathor.getMessagesDataSource().open();
 
@@ -330,7 +378,28 @@ public class ChatUserActivity extends ActionBarActivity implements ImageView.OnC
             updateListView(message);
         }
     }
+    private void fetchEarlierMessages()
+    {
+        ArrayList<Message> existingMessages = Togathor.getMessagesDataSource().getMessagesByPage(currentPage);
+        if(existingMessages.size() == 0)
+            return;
+        for(int i = 0; i < existingMessages.size(); i++)
+        {
+            switch (existingMessages.get(i).getMessageType()) {
+                case Const.TEXT:
+                    card = new CustomTextCard(R.layout.card_text_message, message);
+                    break;
 
+                case Const.IMAGE:
+                    card = new CustomImageCard(R.layout.card_image_message, message);
+                    break;
+            }
+
+            gCurrentMessages.add(i , existingMessages.get(i));
+            chatListView.add(card);
+            chatListView.setSelection(i);
+        }
+    }
     private void updateListView(Message message) {
 
         switch (message.getMessageType()) {
